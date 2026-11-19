@@ -1,0 +1,100 @@
+
+# simpleKRR
+
+An R package for Kernel Ridge Regression (KRR)
+using a Gaussian kernel.
+
+## 1. Introduction
+
+This package provides functions for fitting and
+predicting Kernel Ridge Regression models.
+
+The Gaussian kernel is defined as
+
+K(x, z) = exp(-rho * ||x - z||^2)
+
+The KRR coefficients are estimated by
+
+alpha_hat = (K + lambda * I)^(-1) * y
+
+## 2. Installation
+
+After the package is uploaded to GitHub,
+it can be installed using:
+
+```r
+devtools::install_github("hnnbnnon/simpleKRR")
+```
+
+## 3. Example: Simulated Regression Data
+
+### Step 1. Generate data
+
+```r
+library(simpleKRR)
+
+set.seed(1)
+n = 150
+X = matrix(runif(n, -1, 1), ncol = 1)
+ftrue = function(x) sin(2*pi*x) + 0.5*cos(4*pi*x)
+y = ftrue(X[,1]) + rnorm(n, sd = 0.1)
+
+plot(X, y)
+```
+
+We generate 150 observations from a nonlinear
+regression function with Gaussian noise.
+
+### Step 2. Fit the KRR model
+
+```r
+fit = krr(X, y, rho = 10, lambda = 0.0001)
+
+head(fit$coefficients)
+```
+
+The krr() function estimates the model coefficients
+using the Gaussian kernel and ridge regularization.
+
+### Step 3. Predict on new data
+
+```r
+n_new = 300
+X_new = matrix(seq(-1, 1, len = n_new), ncol = 1)
+
+pred = predict(fit, X_new)
+
+head(pred)
+```
+
+The predict() function computes predictions for
+300 new observations.
+
+### Step 4. Visualization
+
+```r
+plot(X, y, col = "gray", pch = 16,
+     xlab = "X", ylab = "y",
+     main = "Kernel Ridge Regression")
+
+lines(X_new[,1], pred, col = "blue", lwd = 2)
+curve(ftrue(x), add = TRUE, col = "red", lwd = 2)
+
+legend("topright",
+       legend = c("KRR", "True function"),
+       col = c("blue", "red"),
+       lty = 1, lwd = 2)
+```
+
+The gray points represent the observed data.
+The blue curve represents the KRR prediction,
+while the red curve represents the true function.
+
+For this example, rho = 10 and lambda = 0.0001
+provide a visually reasonable fit.
+
+## 4. Main Functions
+
+- krr(): Fits a Gaussian Kernel Ridge Regression model.
+- predict(): Predicts responses for new observations
+  using a fitted KRR model.

@@ -1,0 +1,19 @@
+Package: simpleKRR
+Type: Package
+Title: Gaussian Kernel Ridge Regression
+Version: 0.1.0
+Authors@R: c(
+    person(
+      "park", "hanbi",
+      email = "hnnbnnon@gmail.com",
+      role = c("aut", "cre")
+    )
+  )
+Description: Fits kernel ridge regression models
+    using a Gaussian kernel. The package provides
+    functions for model fitting and prediction
+    on new observations.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Config/roxygen2/version: 8.1.1
